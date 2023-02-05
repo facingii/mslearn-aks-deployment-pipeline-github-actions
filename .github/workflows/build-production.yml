@@ -2,7 +2,7 @@ name: Build and push the tagged build to production
 
 on:
   push:
-    tags: 
+    tags:
       - 'v*'
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Fetch latest version
         id: fetch_version
         run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
@@ -25,10 +25,10 @@ jobs:
           registry: ${{ secrets.ACR_NAME }}
           username: ${{ secrets.ACR_LOGIN }}
           password: ${{ secrets.ACR_PASSWORD }}
-          
-      - name: Build and push Docker images
+
+      - name: Build and push production images
         uses: docker/build-push-action@v2
         with:
           context: .
+          tags: ${{secrets.ACR_NAME}}/contoso-website:latest,${{secrets.ACR_NAME}}/contoso-website:${{ steps.fetch_version.outputs.TAG }}
           push: true
-          tags: ${{secrets.ACR_NAME}}/contoso-website:latest,${{secrets.ACR_NAME}}/contoso-website:${{ steps.fetch_version.outputs.TAG }}          
