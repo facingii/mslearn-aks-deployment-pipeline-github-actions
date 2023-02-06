@@ -56,8 +56,5 @@ jobs:
             --wait \
             --namespace staging \
             contoso-website \
-            ./kubernetes/contoso-website \
-            --set image.registry=contosocontainerregistry29394.azurecr.io
-            --set dns.name=${{ secrets.DNS_NAME }}
-
+            ./kubernetes/contoso-website 
           
